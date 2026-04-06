@@ -12,7 +12,7 @@
  */
 
 export default {
-	async fetch(request, env, ctx): Promise<Response> {
+	async fetch(request, env, ctx): Promise<Response> {   
 		const url = new URL(request.url);
 		switch (url.pathname) {
 			case '/message':

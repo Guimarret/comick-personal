@@ -3,8 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "deploy": "wrangler deploy",
-    "dev": "wrangler dev",
+    "build": "vite build",
+    "deploy": "vite build && wrangler deploy",
+    "dev": "concurrently \"vite build --watch\" \"wrangler dev\"",
     "start": "wrangler dev",
     "test": "vitest",
     "cf-typegen": "wrangler types"
@@ -12,7 +13,9 @@
   "devDependencies": {
     "@cloudflare/vitest-pool-workers": "^0.12.4",
     "@types/node": "^25.5.2",
+    "concurrently": "^9.2.1",
     "typescript": "^5.5.2",
+    "vite": "^7.3.2",
     "vitest": "~3.2.0",
     "wrangler": "^4.80.0"
   }

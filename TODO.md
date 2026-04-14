@@ -1,0 +1,6 @@
+- Session
+    - Id generation after login
+        - Check if is validated in the database
+- Cookies
+	- Check if the session_id are logged in the session
+	- session must be in the db

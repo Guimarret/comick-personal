@@ -4,14 +4,19 @@ export async function register_user(
     db: D1Database,
     username?: string
 ) {
-    const hashed = await hashPassword(password);
+    try {
+        const hashed = await hashPassword(password);
 
-    await db
-        .prepare('INSERT INTO users (email, password, username) VALUES (?, ?, ?)')
-        .bind(email, hashed, username ?? null)
-        .run();
+        await db
+            .prepare('INSERT INTO users (email, password, username) VALUES (?, ?, ?)')
+            .bind(email, hashed, username ?? null)
+            .run();
 
-    return { success: true };
+        return { success: true as const };
+    } catch (e) {
+        const message = e instanceof Error ? e.message : 'Unknown error';
+        return { success: false as const, error: message };
+    }
 }
 
 export async function update_username(id: number, username: string, db: D1Database) {

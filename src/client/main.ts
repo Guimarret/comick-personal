@@ -16,9 +16,9 @@ modal.innerHTML = `
 
     <div id="view-login" class="hidden">
       <h2>Login</h2>
-      <input class="modal-input" type="email" placeholder="Email" />
+      <input class="modal-input" type="text" placeholder="Email or Username" />
       <input class="modal-input" type="password" placeholder="Password" />
-      <button class="modal-btn">Sign in</button>
+      <button class="modal-btn" id="sign-in">Sign in</button>
       <button class="modal-link" id="back-welcome">Back</button>
     </div>
 
@@ -54,6 +54,21 @@ modal.addEventListener('click', (e) => {
 });
 
 document.getElementById('go-login')!.addEventListener('click', () => showView('login'));
+
+modal.querySelector('#sign-in')!.addEventListener('click', async () => {
+	const [emailInput, passwordInput] = modal.querySelectorAll<HTMLInputElement>('#view-login .modal-input');
+	const res = await fetch('/api/login', {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify({ identifier: emailInput.value, password: passwordInput.value }),
+	});
+	const data = await res.json() as { success: boolean; error?: string };
+	if (!data.success) {
+		alert(data.error ?? 'Login failed');
+		return;
+	}
+	modal.classList.add('hidden');
+});
 document.getElementById('go-register')!.addEventListener('click', () => showView('register'));
 document.getElementById('back-welcome')!.addEventListener('click', () => showView('welcome'));
 document.getElementById('back-welcome-reg')!.addEventListener('click', () => showView('welcome'));

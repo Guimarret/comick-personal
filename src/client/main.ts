@@ -24,9 +24,10 @@ modal.innerHTML = `
 
     <div id="view-register" class="hidden">
       <h2>Create Account</h2>
-      <input class="modal-input" type="email" placeholder="Email" />
-      <input class="modal-input" type="password" placeholder="Password" />
-      <button class="modal-btn">Register</button>
+      <input class="modal-input" id="register_email" type="email" placeholder="Email" />
+	  <input class="modal-input" id="register_username" type="text" placeholder="Username | Optional" />
+      <input class="modal-input" id="register_password" type="password" placeholder="Password" />
+			<button class="modal-btn" id="register-submit">Register</button>
       <button class="modal-link" id="back-welcome-reg">Back</button>
     </div>
   </div>
@@ -69,6 +70,31 @@ modal.querySelector('#sign-in')!.addEventListener('click', async () => {
 	}
 	modal.classList.add('hidden');
 });
+
+document.getElementById('register-submit')!.addEventListener('click', async () => {
+	const emailInput = document.getElementById('register_email') as HTMLInputElement | null;
+	const usernameInput = document.getElementById('register_username') as HTMLInputElement | null;
+	const passwordInput = document.getElementById('register_password') as HTMLInputElement | null;
+
+	if (!emailInput || !passwordInput) {
+		alert('Missing register form inputs');
+		return;
+	}
+
+	const username = usernameInput?.value.trim() || null;
+	const res = await fetch('/api/create_user', {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify({ email: emailInput.value, password: passwordInput.value, username }),
+	});
+	const data = await res.json() as { success: boolean; error?: string };
+	if (!data.success) {
+		alert(data.error ?? 'Account creation failed');
+		return;
+	}
+	modal.classList.add('hidden');
+});
+
 document.getElementById('go-register')!.addEventListener('click', () => showView('register'));
 document.getElementById('back-welcome')!.addEventListener('click', () => showView('welcome'));
 document.getElementById('back-welcome-reg')!.addEventListener('click', () => showView('welcome'));

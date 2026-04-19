@@ -2,7 +2,7 @@ export async function register_user(
     email: string,
     password: string,
     db: D1Database,
-    username?: string
+    username?: string | null
 ) {
     try {
         const hashed = await hashPassword(password);

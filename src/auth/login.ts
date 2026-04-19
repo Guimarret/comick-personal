@@ -1,3 +1,5 @@
+import { create_session } from './session'
+
 export async function register_user(
     email: string,
     password: string,
@@ -94,6 +96,10 @@ export async function login_auth(identifier: string, password: string, db: D1Dat
     const valid = await verifyPassword(password, user.password);
     if (!valid) {
         return { success: false, error: 'Invalid credentials' };
+    }
+    
+    if (user){
+        create_session(user.id, db)
     }
 
     return { success: true, user };

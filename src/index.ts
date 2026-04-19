@@ -1,5 +1,5 @@
 import { login_auth, register_user } from './auth/login';
-import { validateSession } from './auth/session'
+import { validateSession, delete_session } from './auth/session'
 
 export default {
 	async fetch(request, env, ctx): Promise<Response> {
@@ -45,10 +45,8 @@ export default {
 				}
 				return Response.json({ success: true });
 			}
-			case '/message':
-				return new Response('Hello, World!');
-			// case '/random':
-			// 	return new Response(crypto.randomUUID());
+			case '/api/logout':
+				delete_session(request, env.comick_personal_db)
 			default:
 				return new Response('Not Found', { status: 404 });
 		}

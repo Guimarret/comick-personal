@@ -16,8 +16,8 @@ modal.innerHTML = `
 
     <div id="view-login" class="hidden">
       <h2>Login</h2>
-      <input class="modal-input" type="text" placeholder="Email or Username" />
-      <input class="modal-input" type="password" placeholder="Password" />
+      <input class="modal-input" id="login_identifier" type="text" placeholder="Email or Username" />
+      <input class="modal-input" id="login_password" type="password" placeholder="Password" />
       <button class="modal-btn" id="sign-in">Sign in</button>
       <button class="modal-link" id="back-welcome">Back</button>
     </div>
